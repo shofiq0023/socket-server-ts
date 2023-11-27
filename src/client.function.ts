@@ -12,6 +12,6 @@ export function addClient(username: string | string[], sid: string): void {
     viewClients();
 }
 
-export function viewClients(): void {
-    console.log(clients);
+export function viewClients(): Client[] {
+    return clients;
 }

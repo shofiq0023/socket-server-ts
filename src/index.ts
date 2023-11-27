@@ -20,7 +20,12 @@ io.on("connection", (socket) => {
     } else {
         console.info(`${username} connected`);
         client.addClient(username, sid);
+        io.emit("userList", client.viewClients());
     }
+
+    socket.on("sendMessage", (message: string) => {
+        io.emit("getMessage", message);
+    });
 
     socket.on("disconnect", () => {
         console.error(`${sid} disconnected`);
