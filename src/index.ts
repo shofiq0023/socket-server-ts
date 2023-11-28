@@ -7,7 +7,7 @@ import * as client from "./client.function";
 dotenv.config();
 const app: Express = express();
 const httpServer = createServer(app);
-const io = new Server(httpServer);
+const io = new Server(httpServer, { cors: { origin: "*" } });
 const port: string | undefined = process.env.PORT;
 
 io.on("connection", (socket) => {
