@@ -15,3 +15,9 @@ export function addClient(username: string | string[], sid: string): void {
 export function viewClients(): Client[] {
     return clients;
 }
+
+export function getClientSid(username: string): string {
+    let client: Client = clients.filter((c) => c.name == username)[0];
+    
+    return client.sid;
+}

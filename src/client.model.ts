@@ -1,4 +1,4 @@
-export type Client = {
+export interface Client {
     name: string | string[];
     sid: string;
 };

@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import * as client from "./client.function";
+import { Data } from "./data.model";
 
 dotenv.config();
 const app: Express = express();
@@ -23,8 +24,9 @@ io.on("connection", (socket) => {
         io.emit("userList", client.viewClients());
     }
 
-    socket.on("sendMessage", (message: string) => {
-        io.emit("getMessage", message);
+    socket.on("sendMessage", (data: string) => {
+        let req: Data = JSON.parse(data);
+        io.to(client.getClientSid(req.to)).emit("getMessage", data);
     });
 
     socket.on("disconnect", () => {
