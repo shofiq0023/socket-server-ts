@@ -1,4 +1,4 @@
 export interface Client {
-    name: string | string[];
+    name: string;
     sid: string;
 };

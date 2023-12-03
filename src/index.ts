@@ -12,7 +12,7 @@ const io = new Server(httpServer, { cors: { origin: "*" } });
 const port: string | undefined = process.env.PORT;
 
 io.on("connection", (socket) => {
-    let username = socket.handshake.query.username;
+    let username: any = socket.handshake.query.username;
     let sid: string = socket.id;
 
     if (username == undefined || username == "") {
@@ -21,15 +21,16 @@ io.on("connection", (socket) => {
     } else {
         console.info(`${username} connected`);
         client.addClient(username, sid);
-        io.emit("userList", client.viewClients());
+        io.emit("userList", client.getUserList());
     }
 
     socket.on("sendMessage", (data: string) => {
         let req: Data = JSON.parse(data);
-        io.to(client.getClientSid(req.to)).emit("getMessage", data);
+        io.to(client.getClientSidByUsername(req.to)).emit("getMessage", data);
     });
 
     socket.on("disconnect", () => {
+        client.removeClient(socket.id);
         console.error(`${sid} disconnected`);
     });
 });
