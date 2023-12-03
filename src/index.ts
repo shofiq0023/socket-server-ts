@@ -26,7 +26,14 @@ io.on("connection", (socket) => {
 
     socket.on("sendMessage", (data: string) => {
         let req: Data = JSON.parse(data);
-        io.to(client.getClientSidByUsername(req.to)).emit("getMessage", data);
+        io.to([
+            client.getClientSidByUsername(username),
+            client.getClientSidByUsername(req.to),
+        ]).emit("getMessage", data);
+    });
+
+    socket.on("message", (data: string) => {
+        io.emit("getMessage", data);
     });
 
     socket.on("disconnect", () => {
